@@ -1,10 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import {
-  ArrowLeft, Award, BadgeIndianRupee, CalendarDays, Check, ChevronDown,
+  ArrowLeft, CalendarDays, Check, ChevronDown,
   ChevronRight, CircleUserRound, Clock3, Copy, Home, Info, Megaphone,
   MessageCircle, Play, Plus, Search, Send, ShieldCheck, Trophy, Upload,
-  Users, Video,
+  Users,
 } from "lucide-react";
 import judgeImage from "@/assets/judge-manju.jpg";
 import winnerRiya from "@/assets/winner-riya.jpg";
@@ -45,7 +45,7 @@ const rewards = [
   ["☆", "5th Winner", "₹ 130"], ["☆", "6th Winner", "₹ 80"],
 ];
 
-function IconButton({ label, children, onClick }: { label: string; children: React.ReactNode; onClick?: () => void }) {
+function IconButton({ label, children, onClick }: { label: string; children: ReactNode; onClick?: () => void }) {
   return <button type="button" className="icon-button" aria-label={label} title={label} onClick={onClick}>{children}</button>;
 }
 
