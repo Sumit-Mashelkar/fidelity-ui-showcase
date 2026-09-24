@@ -14,13 +14,340 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      competition_registrations: {
+        Row: {
+          cancelled_at: string | null
+          competition_id: string
+          id: string
+          payment_status: string
+          registered_at: string
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          cancelled_at?: string | null
+          competition_id: string
+          id?: string
+          payment_status?: string
+          registered_at?: string
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          cancelled_at?: string | null
+          competition_id?: string
+          id?: string
+          payment_status?: string
+          registered_at?: string
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "competition_registrations_competition_id_fkey"
+            columns: ["competition_id"]
+            isOneToOne: false
+            referencedRelation: "competitions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      competition_rewards: {
+        Row: {
+          amount_paise: number
+          competition_id: string
+          icon: string
+          id: string
+          label: string
+          rank: number
+        }
+        Insert: {
+          amount_paise: number
+          competition_id: string
+          icon?: string
+          id?: string
+          label: string
+          rank: number
+        }
+        Update: {
+          amount_paise?: number
+          competition_id?: string
+          icon?: string
+          id?: string
+          label?: string
+          rank?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "competition_rewards_competition_id_fkey"
+            columns: ["competition_id"]
+            isOneToOne: false
+            referencedRelation: "competitions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      competition_submissions: {
+        Row: {
+          competition_id: string
+          id: string
+          media_url: string
+          registration_id: string
+          status: string
+          submitted_at: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          competition_id: string
+          id?: string
+          media_url: string
+          registration_id: string
+          status?: string
+          submitted_at?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          competition_id?: string
+          id?: string
+          media_url?: string
+          registration_id?: string
+          status?: string
+          submitted_at?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "competition_submissions_competition_id_fkey"
+            columns: ["competition_id"]
+            isOneToOne: false
+            referencedRelation: "competitions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "competition_submissions_registration_id_fkey"
+            columns: ["registration_id"]
+            isOneToOne: true
+            referencedRelation: "competition_registrations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      competition_winners: {
+        Row: {
+          competition_id: string
+          display_name: string
+          display_order: number
+          id: string
+          image_key: string
+          placement_label: string
+          published: boolean
+          video_url: string | null
+        }
+        Insert: {
+          competition_id: string
+          display_name: string
+          display_order?: number
+          id?: string
+          image_key: string
+          placement_label: string
+          published?: boolean
+          video_url?: string | null
+        }
+        Update: {
+          competition_id?: string
+          display_name?: string
+          display_order?: number
+          id?: string
+          image_key?: string
+          placement_label?: string
+          published?: boolean
+          video_url?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "competition_winners_competition_id_fkey"
+            columns: ["competition_id"]
+            isOneToOne: false
+            referencedRelation: "competitions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      competitions: {
+        Row: {
+          about: string
+          booked_count: number
+          capacity: number
+          category: string
+          certificate_enabled: boolean
+          created_at: string
+          currency: string
+          disclaimer: string
+          entry_fee_paise: number
+          format_label: string
+          id: string
+          judge_id: string | null
+          judging_parameters: string
+          prize_pool_paise: number
+          publication_status: string
+          referral_reward_paise: number
+          registration_closes_at: string
+          registration_opens_at: string
+          results_at: string
+          rules_eligibility: string
+          slug: string
+          submission_closes_at: string
+          submission_opens_at: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          about: string
+          booked_count?: number
+          capacity: number
+          category: string
+          certificate_enabled?: boolean
+          created_at?: string
+          currency?: string
+          disclaimer: string
+          entry_fee_paise?: number
+          format_label: string
+          id?: string
+          judge_id?: string | null
+          judging_parameters: string
+          prize_pool_paise?: number
+          publication_status?: string
+          referral_reward_paise?: number
+          registration_closes_at: string
+          registration_opens_at: string
+          results_at: string
+          rules_eligibility: string
+          slug: string
+          submission_closes_at: string
+          submission_opens_at: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          about?: string
+          booked_count?: number
+          capacity?: number
+          category?: string
+          certificate_enabled?: boolean
+          created_at?: string
+          currency?: string
+          disclaimer?: string
+          entry_fee_paise?: number
+          format_label?: string
+          id?: string
+          judge_id?: string | null
+          judging_parameters?: string
+          prize_pool_paise?: number
+          publication_status?: string
+          referral_reward_paise?: number
+          registration_closes_at?: string
+          registration_opens_at?: string
+          results_at?: string
+          rules_eligibility?: string
+          slug?: string
+          submission_closes_at?: string
+          submission_opens_at?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "competitions_judge_id_fkey"
+            columns: ["judge_id"]
+            isOneToOne: false
+            referencedRelation: "judges"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      judges: {
+        Row: {
+          created_at: string
+          experience: string
+          id: string
+          image_key: string
+          intro_video_url: string | null
+          name: string
+          title: string
+        }
+        Insert: {
+          created_at?: string
+          experience: string
+          id?: string
+          image_key: string
+          intro_video_url?: string | null
+          name: string
+          title: string
+        }
+        Update: {
+          created_at?: string
+          experience?: string
+          id?: string
+          image_key?: string
+          intro_video_url?: string | null
+          name?: string
+          title?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      register_for_competition: {
+        Args: { _competition_id: string }
+        Returns: {
+          cancelled_at: string | null
+          competition_id: string
+          id: string
+          payment_status: string
+          registered_at: string
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "competition_registrations"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
+      submit_competition_entry: {
+        Args: { _competition_id: string; _media_url: string }
+        Returns: {
+          competition_id: string
+          id: string
+          media_url: string
+          registration_id: string
+          status: string
+          submitted_at: string
+          updated_at: string
+          user_id: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "competition_submissions"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
+      withdraw_from_competition: {
+        Args: { _competition_id: string }
+        Returns: boolean
+      }
     }
     Enums: {
       [_ in never]: never
