@@ -38,7 +38,7 @@ function IconButton({ label, children, onClick }: { label: string; children: Rea
 function money(paise: number) { return new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 }).format(paise / 100); }
 function dateParts(value: string) { const date = new Date(value); return { date: new Intl.DateTimeFormat("en-IN", { day: "numeric", month: "short", year: "2-digit", timeZone: "Asia/Kolkata" }).format(date), time: new Intl.DateTimeFormat("en-IN", { hour: "2-digit", minute: "2-digit", hour12: true, timeZone: "Asia/Kolkata" }).format(date) }; }
 function countdown(target: string, now: number) { const distance = Math.max(Date.parse(target) - now, 0); const days = Math.floor(distance / 86_400_000); const hours = Math.floor(distance / 3_600_000) % 24; const minutes = Math.floor(distance / 60_000) % 60; const seconds = Math.floor(distance / 1000) % 60; return `${String(days).padStart(2,"0")}d : ${String(hours).padStart(2,"0")}h : ${String(minutes).padStart(2,"0")}m : ${String(seconds).padStart(2,"0")}s`; }
-function friendlyError(error: unknown) { const message = error instanceof Error ? error.message : "Something went wrong."; const key = Object.keys(errorCopy).find((item) => message.includes(item)); return key ? errorCopy[key] : "That action could not be completed. Please try again."; }
+function friendlyError(error: unknown) { const message = error instanceof Error ? error.message : "Something went wrong."; const key = Object.keys(errorCopy).find((item) => message.includes(item)); return key ? (errorCopy[key] ?? "That action could not be completed. Please try again.") : "That action could not be completed. Please try again."; }
 
 function CompetitionPage() {
   const { data } = useSuspenseQuery(competitionQuery);
@@ -92,7 +92,9 @@ function CompetitionPage() {
     if (registered) { if (lifecycle === "submissions_open") setSubmitOpen(true); else withdrawMutation.mutate(); return; }
     registerMutation.mutate();
   };
-  const actionDisabled = lifecycle !== "registration_open" && !(registered && (lifecycle === "registration_open" || lifecycle === "submissions_open"));
+  const actionDisabled = registered
+    ? lifecycle !== "registration_open" && lifecycle !== "submissions_open"
+    : lifecycle !== "registration_open";
   const actionLabel = registerMutation.isPending || withdrawMutation.isPending ? "Please wait…" : registered ? lifecycle === "submissions_open" ? (myStateQuery.data?.submission ? "Update Submission" : "Upload Submission") : lifecycle === "registration_open" ? "Withdraw Registration" : "Registered" : lifecycle === "full" ? "Competition Full" : lifecycle === "upcoming" ? "Registration Opens Soon" : lifecycle === "registration_open" ? "Register Now" : "Registration Closed";
 
   const handleEmailAuth = async () => {
